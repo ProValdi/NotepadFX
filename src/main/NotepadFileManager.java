@@ -1,35 +1,43 @@
 package main;
 
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Scanner;
 
 public class NotepadFileManager {
 
-    public static File openFile(Stage stage) {
+    public static FileChooser chooseFile(String name) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setTitle("Open Document");
+        fileChooser.setTitle(name + " Document");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("All files (*.*)", "*.*");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(stage);
-
-        return file;
+        return fileChooser;
     }
 
-    public static void saveFile(String content, File file) throws IOException{
-        try {
-            PrintWriter writer = new PrintWriter(file);
-            writer.println(content);
-            writer.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Stage.class.getName()).log(Level.SEVERE, null, ex);
+    public static TextArea readFile(File file) throws IOException {
+        // Actually, BufferedReader is much slower. It was tested with files of size of 25 kB
+        Scanner scanner = new Scanner(file);
+        TextArea textArea = new TextArea();
+
+        String line = "";
+        while(scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            textArea.appendText(line + "\n");
         }
+        scanner.close();
+        return textArea;
+    }
+
+    public static void saveFile(File file, TextArea content) throws IOException {
+
+        PrintWriter writer = new PrintWriter(file);
+        writer.println(content.getText());
+        writer.close();
     }
 
 }

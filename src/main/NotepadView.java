@@ -1,12 +1,10 @@
 package main;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import java.io.File;
 
 public class NotepadView extends BorderPane {
 
@@ -35,18 +33,35 @@ public class NotepadView extends BorderPane {
         menuFile.getItems().addAll(itemOpen, itemSave, separator, itemExit);
         menuBar.getMenus().addAll(menuFile, menuView);
 
-        viewModel.addSaveAction(itemSave);
-        viewModel.addOpenAction(itemOpen);
-        viewModel.addExitAction(itemExit);
+        itemOpen.setAccelerator(KeyCombination.keyCombination(Hotkeys.OPEN.getKey()));
+        itemOpen.setOnAction(actionEvent -> textArea.setText(viewModel.getText()));
 
-    }
+        itemSave.setAccelerator(KeyCombination.keyCombination(Hotkeys.SAVE.getKey()));
+        itemSave.setOnAction(actionEvent -> viewModel.SaveText(textArea));
 
-    public TextArea getTextArea() {
-        return textArea;
+        itemExit.setAccelerator(KeyCombination.keyCombination(Hotkeys.EXIT.getKey()));
+        itemExit.setOnAction(actionEvent -> System.exit(0));
+
     }
 
     public MenuBar getMenuBar() {
         return menuBar;
     }
 
+}
+
+enum Hotkeys {
+    OPEN("CTRL+O"),
+    SAVE("CTRL+S"),
+    EXIT("CTRL+ESC");
+
+    private String key;
+
+    Hotkeys(String key) {
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
 }

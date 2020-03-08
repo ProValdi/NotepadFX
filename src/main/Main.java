@@ -2,9 +2,6 @@ package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,7 +17,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("NotepadFX");
-
         NotepadView view = new NotepadView(new NotepadViewModel(primaryStage));
 
         Scene scene = new Scene(view, width, height);
