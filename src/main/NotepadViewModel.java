@@ -1,6 +1,6 @@
 package main;
 
-import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.*;
 
@@ -14,14 +14,14 @@ public class NotepadViewModel {
         initialTitle = stage.getTitle();
     }
 
-    public void SaveText(TextArea text) {
-        File file = NotepadFileManager.chooseFile("Save").showSaveDialog(stage);
+    public void saveText(String text) {
+        File file = getFileChooser("Save").showSaveDialog(stage);
 
         if (file != null) {
             try {
-                NotepadFileManager.saveFile(file, text);
+                NotepadFileManager.saveTextToFile(file, text);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             stage.setTitle(initialTitle + " - " + file.getPath());
         }
@@ -29,18 +29,27 @@ public class NotepadViewModel {
     }
 
     public String getText() {
-        File file = NotepadFileManager.chooseFile("Open").showOpenDialog(stage);
-        TextArea area = null;
+        File file = getFileChooser("Open").showOpenDialog(stage);
+        String text = null;
 
         if(file != null) {
             try {
-                area = NotepadFileManager.readFile(file);
+                text = NotepadFileManager.readTextFromFile(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             stage.setTitle(initialTitle + " - " + file.getPath());
         }
-        return area != null? area.getText() : null;
+        return text;
+    }
+
+    public FileChooser getFileChooser(String name) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setTitle(name + " Document");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("All files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().add(extFilter);
+        return fileChooser;
     }
 
 

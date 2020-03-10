@@ -1,7 +1,5 @@
 package main;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
@@ -37,15 +35,11 @@ public class NotepadView extends BorderPane {
         itemOpen.setOnAction(actionEvent -> textArea.setText(viewModel.getText()));
 
         itemSave.setAccelerator(KeyCombination.keyCombination(Hotkeys.SAVE.getKey()));
-        itemSave.setOnAction(actionEvent -> viewModel.SaveText(textArea));
+        itemSave.setOnAction(actionEvent -> viewModel.saveText(textArea.getText()));
 
         itemExit.setAccelerator(KeyCombination.keyCombination(Hotkeys.EXIT.getKey()));
         itemExit.setOnAction(actionEvent -> System.exit(0));
 
-    }
-
-    public MenuBar getMenuBar() {
-        return menuBar;
     }
 
 }
