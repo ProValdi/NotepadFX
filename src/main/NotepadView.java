@@ -32,7 +32,7 @@ public class NotepadView extends BorderPane {
         menuBar.getMenus().addAll(menuFile, menuView);
 
         itemOpen.setAccelerator(KeyCombination.keyCombination(Hotkeys.OPEN.getKey()));
-        itemOpen.setOnAction(actionEvent -> textArea.setText(viewModel.getText()));
+        itemOpen.setOnAction(actionEvent -> textArea.setText(viewModel.fetchText()));
 
         itemSave.setAccelerator(KeyCombination.keyCombination(Hotkeys.SAVE.getKey()));
         itemSave.setOnAction(actionEvent -> viewModel.saveText(textArea.getText()));

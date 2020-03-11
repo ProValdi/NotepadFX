@@ -24,18 +24,12 @@ public class NotepadViewModel {
 
     }
 
-    public String getText() {
+    public String fetchText() {
         File file = getFileChooser("Open").showOpenDialog(stage);
         String text = null;
 
         if(file != null) {
-            try {
-                text = NotepadFileManager.readTextFromFile(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            text = NotepadFileManager.readTextFromFile(file);
             stage.setTitle(initialTitle + " - " + file.getPath());
         }
         return text;

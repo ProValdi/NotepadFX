@@ -1,14 +1,11 @@
 package main;
 
 import javafx.scene.control.Alert;
-
 import java.io.*;
-import java.util.Scanner;
 
 public class NotepadFileManager {
 
-    public static String readTextFromFile(File file) throws IOException {
-        // Actually, BufferedReader is much slower. It was tested with files of size of 25 kB
+    public static String readTextFromFile(File file) {
         StringBuilder text = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
