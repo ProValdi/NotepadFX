@@ -1,31 +1,40 @@
 package main;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javafx.scene.control.Alert;
+
+import java.io.*;
 import java.util.Scanner;
 
 public class NotepadFileManager {
 
     public static String readTextFromFile(File file) throws IOException {
         // Actually, BufferedReader is much slower. It was tested with files of size of 25 kB
-        Scanner scanner = new Scanner(file);
         StringBuilder text = new StringBuilder();
 
-        String line = "";
-        while(scanner.hasNextLine()) {
-            line = scanner.nextLine();
-            text.append(line).append('\n');
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = "";
+            while((line = br.readLine()) != null) {
+                text.append(line).append('\n');
+            }
+            return text.toString();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
-        scanner.close();
-        return text.toString();
+        return null;
     }
 
-    public static void saveTextToFile(File file, String text) throws IOException {
+    public static void saveTextToFile(File file, String text) {
 
-        PrintWriter writer = new PrintWriter(file);
-        writer.println(text);
-        writer.close();
+        try(PrintWriter writer = new PrintWriter(file)) {
+            writer.println(text);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(e.getMessage());
+            alert.show();
+        }
+
     }
 
 }

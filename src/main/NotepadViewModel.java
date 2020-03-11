@@ -18,11 +18,7 @@ public class NotepadViewModel {
         File file = getFileChooser("Save").showSaveDialog(stage);
 
         if (file != null) {
-            try {
-                NotepadFileManager.saveTextToFile(file, text);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            NotepadFileManager.saveTextToFile(file, text);
             stage.setTitle(initialTitle + " - " + file.getPath());
         }
 
@@ -35,6 +31,8 @@ public class NotepadViewModel {
         if(file != null) {
             try {
                 text = NotepadFileManager.readTextFromFile(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -51,6 +49,7 @@ public class NotepadViewModel {
         fileChooser.getExtensionFilters().add(extFilter);
         return fileChooser;
     }
+
 
 
 }
